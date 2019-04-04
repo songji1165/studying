@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    <h1>1. 선언적 렌더링 _ 텍스트 보간법{{}}</h1>
+        <p id="step1">{{message}}</p>
+
+    <h1>2. 선언적 렌더링 _ v-bind </h1>
+        <p id="step2" v-bind:title="message2" v-text="message">마우스 올려보세요</p>
+
+    <h1>3. vue 조건문 _ v-if</h1>
+        <p id="step3" v-if="seen">
+            {{message}}
+        </p>
+
+    <h1>4. vue 반복문 _ v-for</h1>
+        <div id="step4">
+            <p>
+                {{message}}
+            </p>
+            <ol id="step4">
+                <li v-for="i in todos">
+                    <p>{{ i }}</p>
+                    <p>{{ i.text }}</p>
+                </li>
+            </ol>
+        </div>
+
+    <h1>5. 사용자 입력 핸들링 _ v-on == @</h1>
+        <div id="step5">
+            <p v-if="seen">{{message}}</p>
+            <button @click="clickSeen">클릭</button>
+        </div>
+
+    <h1>6. input을 이용한 양방향 바인딩 _ v-model</h1>
+        <div id="step6">
+            <input type="text" v-model="message" @keypress.enter="reset">
+            <p>
+                {{message}}
+            </p>
+        </div>
+
+        <!-- <div id="step6">
+            <input type="text" v-model="message" @keypress.enter="inputText">
+            <ol>
+                <li v-for="i in todos">{{i.text}}</li>
+            </ol>
+           
+        </div> -->
+    <h1>7. todo 만들어보기</h1>
+        <div id="step7">
+            <input type="text" v-model="todoInput" @keypress.enter="todo">
+            <ol>
+                <li v-for="i in todos">
+                    {{i.text}}
+                </li>
+            </ol>
+
+        </div>
+
+    <style>
+        .state{
+            text-decoration: line-through;
+            color : #d9d9
+        }
+    </style>
+
+    <h1>8. todo 완료, 삭제 버튼만들기</h1>
+        <div id="step8">
+            <input type="text" v-model="input">
+            <button @click="todoInput">입력</button>
+            <ol>
+                <li v-for="i in todos">
+                    <span @click="todoComplete(i)" v-bind:class="{state: i.state}">{{i.text}}</span>
+                    <button @click.stop="deleteTodo(i)">삭제</button>
+                </li>
+            </ol>
+        </div>
+
+
+
+    <script>
+        var step1 = new Vue({
+            el : '#step1',
+            data : { message : '데이터렌더링한다(el로 연동 후 data에 텍스트보간법으로 렌더링)'}
+            
+        })
+
+        var step2 = new Vue({
+            el : '#step2',
+            data : {
+                message2: 
+                    `v-bind:title title속성을 데이터렌더링한다 ${new Date()}`
+                    ,
+                message : '마우스 hover시 title '
+            }
+        })
+
+        var step3 = new Vue({
+            el : '#step3',
+            data : {
+                message : '보이나',
+                seen:true
+            }
+        })
+
+        var step4 = new Vue({
+            el : '#step4',
+            data : {
+                message : '배열의 데이터를 사용해서 렌더링(반복문)',
+                todos : [ 
+                    { text : 'javascript'},
+                    { text : 'vue'},
+                    { text : '응용'}
+                ]
+            }
+        })
+
+        var step5 = new Vue({
+            el : '#step5',
+            data : {
+                message : 'v-on을 통한 클릭메서드 만들기(복수니까 methods)',
+                seen : true
+            },
+            methods : {
+                clickSeen : function(){
+                   this.seen = !this.seen
+                }
+            }
+        })
+
+        var step6 = new Vue({
+            el : '#step6',
+            data : {
+                message : "입력해보세요"
+                 },
+            methods : {
+                reset : function(){
+                   this.message = ""
+                }
+            }
+
+
+
+            /*
+            el : '#step6',
+            data : {
+                        message : "", // <- 양방향 바인딩!
+                        todos : [] 
+                    },
+            methods : {
+                inputText : function(){
+                    this.todos.push({text:this.message}),
+                    this.message = ""
+                }
+            }
+            */
+        })
+
+        var step7 = new Vue({
+            el : '#step7',
+            data : {
+                todoInput : "",
+                todos : []
+            },
+            methods : {
+                todo : function(){
+                    this.todos.push({
+                        text:this.todoInput
+                    }),
+                    this.todoInput = ""
+                }
+            }
+        })
+
+        var step8 = new Vue({
+            el : '#step8',
+            data : {
+                input : "",
+                todos : [],
+            },
+            methods : {
+                todoInput : function(){
+                    this.todos.push({
+                        text : this.input,
+                        state : false
+                    }),
+                    this.input = ""
+                },
+                todoComplete : function(i){
+                    i.state = !i.state
+                    // console.log(todoComplete(i))
+                },
+                deleteTodo : function(i){
+                    this.todos.splice(i,1)
+                }
+            }
+        })
+    </script>
+</body>
+</html>

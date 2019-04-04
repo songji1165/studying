@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <title>vue</title>
+</head>
+<body>
+        <style>
+                .state{
+                    text-decoration: line-through;
+                    color : #d9d9
+                }
+            </style>
+        <div id="step8">
+                <input type="text" v-model="input">
+                <button @click="todoInput">입력</button>
+                <ol>
+                    <li v-for="a in todos">
+                        <span @click.stop="todoComplete(a)" v-bind:class="{state: a.state}">{{a.text}}</span>
+                        <button @click.stop="deleteTodo(a)">삭제</button>
+                    </li>
+                </ol>
+            </div>
+
+        <script>
+             var step8 = new Vue({
+            el : '#step8',
+            data : {
+                input : "",
+                todos : [],
+            },
+            methods : {
+                todoInput : function(){
+                    this.todos.push({
+                        text : this.input,
+                        state : false
+                    }),
+                    this.input = ""
+                },
+                todoComplete : function(a){
+                    a.state = !a.state
+                    // console.log(todoComplete(i))
+                },
+                deleteTodo : function(a){
+                    this.todos.splice(a,1)
+                }
+            }
+        })
+        </script>
+</body>
+</html>
