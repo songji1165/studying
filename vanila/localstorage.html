@@ -50,7 +50,7 @@
         */
         var inputName = document.getElementById('inputname');
             
-
+        var ul = document.getElementById('js-todos')
         var formTodo = document.getElementById('form-todo');
         var clickComplete = document.getElementById('todo');
         var deleteBtn = document.getElementById('del');
@@ -106,12 +106,51 @@
             5. ul에 append해줌 
         */
 
+        function saveTodo(){
+            // JSON.stringify
+            localStorage.setItem('ToDos',JSON.stringify(todos))
+        }
+
+        function delTodo(){
+            ul.removeChild(this.parentNode);
+
+            var nowId = this.parentNode.id
+            console.log(this.parentNode.id);
+            console.log("원래todos"+todos)
+            var newToDos = todos.filter(function(a){
+                console.log(a.id, parseInt(nowId))
+                return a.id !== parseInt(nowId)
+            })
+            
+            todos = newToDos
+            console.log("todos"+todos)
+
+        }
+
         function paintTodo(text){
             var li = document.createElement('li');
             var delBtn = document.createElement('button');
+            
+            var id = todos.length + 1
 
             li.innerText = text;
-            delBtn.innerText = 'X'
+            li.id = id
+            delBtn.innerText = 'X';
+
+            ul.appendChild(li);
+            li.appendChild(delBtn);
+            // li.id = 
+            var obj = {
+                text : text,
+                id : todos.length + 1
+            }
+
+            todos.push(obj);
+            console.log("puxh"+todos)
+
+            delBtn.addEventListener('click',delTodo)
+            saveTodo()
+
         }
 
         function todoSave(){
@@ -125,9 +164,21 @@
             inputTodo.value = ''
         }
 
+        function loadTodo(){
+            var lsTodo = localStorage.getItem('ToDos')
+
+            if(lsTodo !== null){
+                var objTodo = JSON.parse(lsTodo);
+                console.log(objTodo)
+
+                objTodo.forEach(function(item){
+                    paintTodo(item.text)
+                });
+            }
+        }
         function init(){
             paintUser();
-            // paintTodos();
+            loadTodo();
             formTodo.addEventListener('submit',todoSave)
         }
         init()
