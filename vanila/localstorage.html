@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+   <style>  
+    .hide{
+        display:none
+    }
+   </style>
+
+    <div class="wrap">
+        <form action="login.php" id="form-user">
+            <input type="text" id="inputname" placeholder="이름을 입력하세요">
+        </form>
+
+        <p id="welcome" class="hide">hello <span id="name"></span></p>
+
+
+        <form action="login.php" id="form-todo">
+            <input type="text" id="inputtodo" placeholder="할 일을 입력하세요">
+        </form>
+
+        <ul id="js-todos">
+        </ul>
+    </div>
+
+    <script>
+        /*
+            1. 초기화 : localStorage에 user와 todolist가 있으면 , paint됨 
+                                    (welcome이 보임)
+                                             (todolist는 []로 저장 배열이 li로 렌더링됨)
+                        없으면 input에 각 정보 입력
+            2. user 정보 저장 : input에 입력
+                                form 전송 시 localstorage에 저장
+                                            form이 action으로 넘어가는거 방지,
+                                localstorage에 있으면 paintUser
+            3. todo 정보 저장 : input에 입력
+                                form 전송시 localstorage에 []로 저장
+                                            form이 action으로 넘어가는 거 방지
+                                localstorage에 있으면 paintTodo
+        */
+        var inputName = document.getElementById('inputname'),
+            inputTodo = document.getElementById('inputTodo');
+        var formTodo = document.getElementById('form-todo');
+
+        var todos = [];
+
+        function userSave(){
+            var current = inputName.value;
+            
+            console.log('event ok')
+            localStorage.setItem('User',current);
+            nowUser()
+            event.preventDefault()
+        }
+
+        function askUser(){
+            inputName.classList.remove('hide');
+
+            var formUser = document.getElementById('form-user');
+
+            formUser.addEventListener('submit',userSave)
+
+            console.log('askuser ok')
+            // localStorage.setItem('User', current)
+        }
+
+        function nowUser(){
+            var textWelcome = document.getElementById('welcome'),
+                name = document.getElementById('name');
+
+            inputName.classList.add('hide');
+            textWelcome.classList.remove('hide');
+            name.innerHTML = localStorage.getItem('User').toUpperCase()
+        } 
+
+        function paintUser(){
+            var currentUser = localStorage.getItem('User')
+            if(currentUser == null){
+                
+                askUser()
+            }else{
+                nowUser()
+            }
+        }
+
+        
+        
+        function todoSave(event){
+            event.preventDefault();
+            
+            var inputTodo = document.getElementById('inputtodo');
+            var currentTodo = inputTodo.value;
+           
+            todos.push(currentTodo);
+            console.log(todos)
+
+            localStorage.setItem('todoList',JSON.stringify(todos));
+            nowTodo();
+
+
+            inputTodo.value = "";
+            
+
+        }
+       
+        
+        function nowTodo(){
+            var todoUl = document.getElementById('js-todos');
+            // todoUl.innerHTML = ""
+                console.log(localStorage.getItem('todoList'))
+            var list = localStorage.getItem('todoList')
+            var obj = JSON.parse(list);
+            console.log(obj)
+
+            for(i in obj){
+                todoUl.innerHTML += `<li>${obj[i]}</li>`
+            }
+        }
+
+        function paintTodos(){
+            nowTodo()
+        }
+
+        function init(){
+            paintUser();
+            paintTodos();
+            formTodo.addEventListener('submit',todoSave)
+        }
+        init()
+
+
+
+    </script>
+</body>
+</html>

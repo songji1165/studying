@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>clock</title>
+</head>
+<body>
+    <p id="now"></p>
+
+    <script>
+        
+        
+        var now = document.getElementById('now');
+        function clock(){
+            var today = new Date();
+                function todayDay(){
+                    var arrayDay = ['일','월','화','수','목','금','토']
+                    return arrayDay[today.getDay()]
+                }
+        
+                function todayHour(){
+                    if(today.getHours() > 12){
+                       return '오후 '+ (today.getHours()-12)
+                    }else{
+                        return  '오전'+today.getHours()
+                    }
+                }
+            
+
+                now.innerText = `
+                ${(today.getMonth())+1}월 ${today.getDate()}일 ${todayDay()}요일 ${todayHour()}시 ${today.getMinutes()}분 ${today.getSeconds()}초
+            `
+            
+        }
+
+       function init(){
+             clock();
+           setInterval(clock,1000);
+       }
+       init()
+
+        
+    </script>
+</body>
+</html>
