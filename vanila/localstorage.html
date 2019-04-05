@@ -4,12 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>todo</title>
 </head>
 <body>
    <style>  
     .hide{
         display:none
+    }
+    .complete{
+        color: #d9d9d9;
+        text-decoration:line-through
     }
    </style>
 
@@ -44,9 +48,12 @@
                                             form이 action으로 넘어가는 거 방지
                                 localstorage에 있으면 paintTodo
         */
-        var inputName = document.getElementById('inputname'),
-            inputTodo = document.getElementById('inputTodo');
+        var inputName = document.getElementById('inputname');
+            
+
         var formTodo = document.getElementById('form-todo');
+        var clickComplete = document.getElementById('todo');
+        var deleteBtn = document.getElementById('del');
 
         var todos = [];
 
@@ -89,47 +96,38 @@
             }
         }
 
-        
-        
-        function todoSave(event){
+
+
+        /*
+            1. todoinput 입력 시 form 전송             
+            2. form 전송시 eventprevent 후 value를 배열로 저장 후 localstorage에 저장
+            3. localstorage에 저장된 값 가져옴
+            4. li 템플릿을 만들어줌
+            5. ul에 append해줌 
+        */
+
+        function paintTodo(text){
+            var li = document.createElement('li');
+            var delBtn = document.createElement('button');
+
+            li.innerText = text;
+            delBtn.innerText = 'X'
+        }
+
+        function todoSave(){
             event.preventDefault();
-            
-            var inputTodo = document.getElementById('inputtodo');
-            var currentTodo = inputTodo.value;
-           
-            todos.push(currentTodo);
-            console.log(todos)
 
-            localStorage.setItem('todoList',JSON.stringify(todos));
-            nowTodo();
+            var inputTodo = document.getElementById('inputtodo') ;
 
+            var currentTodo = inputTodo.value
+            paintTodo(currentTodo);
 
-            inputTodo.value = "";
-            
-
-        }
-       
-        
-        function nowTodo(){
-            var todoUl = document.getElementById('js-todos');
-            // todoUl.innerHTML = ""
-                console.log(localStorage.getItem('todoList'))
-            var list = localStorage.getItem('todoList')
-            var obj = JSON.parse(list);
-            console.log(obj)
-
-            for(i in obj){
-                todoUl.innerHTML += `<li>${obj[i]}</li>`
-            }
-        }
-
-        function paintTodos(){
-            nowTodo()
+            inputTodo.value = ''
         }
 
         function init(){
             paintUser();
-            paintTodos();
+            // paintTodos();
             formTodo.addEventListener('submit',todoSave)
         }
         init()
