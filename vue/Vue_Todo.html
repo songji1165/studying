@@ -76,9 +76,9 @@
             <input type="text" v-model="input">
             <button @click="todoInput">입력</button>
             <ol>
-                <li v-for="i in todos">
+                <li v-for="(i,index) in todos">
                     <span @click="todoComplete(i)" v-bind:class="{state: i.state}">{{i.text}}
-                    <button @click.stop="deleteTodo(i)">삭제</button>
+                    <button @click.stop="deleteTodo(index)">삭제</button>
                 </span>
                 </li>
             </ol>
@@ -199,7 +199,8 @@
                     // console.log(todoComplete(i))
                 },
                 deleteTodo : function(i){
-                    this.todos.splice(i,1)
+                    this.todos.splice(i,2)
+                    console.log(this)
                     console.log('deleteTodo',i)
                 }
             }
