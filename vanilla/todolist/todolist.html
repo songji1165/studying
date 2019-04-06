@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="todolist.css">
+    <link rel="stylesheet" href="todolistJS.css">
+    <title>list만들기</title>
+
+</head>
+<body>
+    <div id="wrapper">
+        <form action="sub.php" class="js-userForm" id="userform">
+            <input type="text" placeholder="이름을 입력하세요" autofocus>
+            <p class="hide">hello "<span></span>"</p>
+        </form>
+        <form action="#" class="js-todoForm">
+            <input type="text" placeholder="할 일을 입력하세요">
+        </form>
+        <div class="todolist">
+            <ul class="js-todoUl">
+            </ul>
+        </div>
+    </div>
+
+    <script src="todolist.js"></script>
+</body>
+</html>

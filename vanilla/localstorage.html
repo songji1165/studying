@@ -88,7 +88,7 @@
 
         function paintUser(){
             var currentUser = localStorage.getItem('User')
-            if(currentUser == null){
+            if(!currentUser){
                 
                 askUser()
             }else{
@@ -117,7 +117,7 @@
             var nowId = this.parentNode.id;
 
             var newToDos = todos.filter(function(a){
-                console.log(a.id, parseInt(nowId))
+                // console.log(a.id, parseInt(nowId))
                 return a.id !== parseInt(nowId)
             })
             todos = newToDos
@@ -166,8 +166,6 @@
             var td = 'ToDos'
             var lsTodo = localStorage.getItem(td)
 
-            console.log('getItem'+ typeof(lsTodo))
-            
             if(lsTodo !== null){
                 var parsedToDos = JSON.parse(lsTodo);
                 
