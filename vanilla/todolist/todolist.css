@@ -22,19 +22,29 @@ input{
     text-align: center
 }
 
+.userform{
+    animation: load .3s
+}
+
 p{
     font-size: 20px;
     color: #333;
-    margin-bottom: 10px
+    margin-bottom: 10px;
+    animation: load .3s
 }
+
 span{
     font-size: 20px;
-    color: skyblue;
+    color:rgb(74, 74, 235);
     font-weight: bold
 }
 
+.js-todoForm{
+    animation: load .3s .3s
+}
 .todolist{
     position: relative;
+
 }
 
 ul{
@@ -44,6 +54,8 @@ ul{
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
+    background: #fff;
+    /* animation: load .3s .5s */
 }
 
 li{ 
@@ -52,9 +64,13 @@ li{
     text-align: left;
     margin-bottom: 5px;
     padding:5px 5px 5px 5%;
-    border-bottom: 1px solid #d9d9d9;
+    border-bottom: 1px solid skyblue;
     font-size: 13px;
     color: #333
+}
+
+li:last-of-type{
+    margin-bottom: 0
 }
 
 li:after{
@@ -67,9 +83,44 @@ li > button {
     float: right;
     margin-right: 5%;
     font-size: 10px;
-    background: #d9d9d9;
+    background: skyblue;
     border: none;
     color: #fff;
     border-radius: 50px;
     cursor: pointer
+}
+
+.bg{
+    position: absolute;
+    top:0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    /* opacity: .3; */
+    animation: fadeIn .5s linear forwards
+}
+
+@keyframes fadeIn{
+    from{
+        opacity: 0
+    }
+    to{
+        opacity: .3;
+    }
+}
+
+.loadani{
+    animation: load .3s 
+}
+
+@keyframes load{
+    from {
+        transform: translateY(-10px);
+        opacity: 0;
+    }
+    to{
+        transform: translateY(0);
+        opacity: 1;
+    }
 }
