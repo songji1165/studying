@@ -4,40 +4,43 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>weather API</title>
+    <title>Document</title>
 </head>
 <body>
-    <span class="js-date">
-
-    </span>
+    <span></span>
 
     <script>
-        const weather = document.querySelector('.js-date');
+        /*
+            1. 사용자의 좌표를 갖고온다.
+            2. weather API를 불러온다.
+            3. weather API에 사용자의 좌표를 입력한다.
+            4. weather서버를 통해 데이터를 얻는것이 성공한다면 
+                현재 위치의 날씨와 기온을 span태그에 innerText해준다.
+        */
+    
+        const span = document.querySelector('span');
 
         function getWeather(lat, lon){
             fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=02e1f20cb9f0609946d22679b7bf51a5&units=metric`).then(function(response){
                 return response.json()
             }).then(function(json){
-                const temper = json.main.temp;
+                const temp = json.main.temp;
                 const today = json.weather[0].main;
-                weather.innerHTML = `기온 : ${temper} and 날씨 : ${today}`
+
+                span.innerHTML = `기온 : ${temp} and 날씨 : ${today}`
             })
         }
 
         function geoErr(){
-            console.log('err')
+            alert('위치 권한 차단 시 날씨정보를 볼 수 없습니다.')
         }
 
         function geoSucc(position){
-            const lat = position.coords.latitude,
-                  lon = position.coords.longitude;
-                  
-            const coordsObj = {
-                lat,
-                lon
-            };
-            getWeather(coordsObj.lat,coordsObj.lon)
-            // saveCoords(coordsObj)
+            console.log(position);
+            const lat = position.coords.latitude;
+            const lon = position.coords.longitude;
+
+            getWeather(lat, lon)
         }
 
         function loadCoords(){
@@ -46,7 +49,6 @@
 
         function init(){
             loadCoords()
-            //coordination : 좌표
         }
         init()
     </script>
