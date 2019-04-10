@@ -207,6 +207,26 @@
         })
     </script>
 
+<div id="bind">
+        <input type="text" v-model="message" @keypress:enter="reset">
+        <p> {{message}} </p>
+    </div>
+
+    <script>
+    new Vue({
+        el : "#bind",
+        data : {
+            message : "입력하세요"
+        },
+        methods : {
+            reset : function(){
+
+                ,this.message = ""
+            }
+        }
+    })
+    </script>
+
 
 
 <!-- stop버튼 다시 해보기 -->
