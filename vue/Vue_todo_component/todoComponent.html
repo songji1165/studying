@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    <style>
+        .done{
+            text-decoration: line-through
+        }
+    </style>
+    <div id="wrap">
+        <div id="todoWrap">
+            <input type="text" v-model="input" @keypress.enter="inputTodo">
+            <p 
+            v-for="(todo,index) in todos"
+            @click="completeTodo(todo)"
+            :class="{done:todo.done}">
+                {{todo.text}} 
+                <button @click.stop="delTodo(index)">delete</button>
+                <button @click.stop="editTodo(todo,index)">EDIT</button>
+            </p>
+            <v-modal 
+            :modal-show = "modalShow"
+            :revice-todo="reviceTodo"
+            @edit-todo="editedTodo"
+            @close-modal="modalToggle"
+            ></v-modal>
+        </div>
+    </div>
+
+    <script src="todoComponent.js"></script>
+</body>
+</html>
