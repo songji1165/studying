@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+
+    <style>
+        canvas {
+            border: 1px solid
+        }
+    </style>
+</head>
+
+<body>
+    <div id="wrapper">
+        <div class="input">
+            <input type="text">
+            <button onclick="result()">결과</button>
+        </div>
+        <div class="num">
+        </div>
+        <div class="math">
+
+        </div>
+
+        <script>
+            var num = []
+            var maths = ['+', '-', '*', '/']
+            var btn = document.querySelector('.num');
+            var btn2 = document.querySelector('.math');
+            var input = document.querySelector('input');
+            var id = 0
+
+            for (let i = 1; i < 10; i++) {
+                num.push(i)
+            }
+            for (let i in num) {
+                var button = document.createElement('button')
+
+                button.innerHTML = num[i]
+
+                btn.appendChild(button)
+
+                button.addEventListener('click', clickbtn)
+
+            }
+
+            for (let i in maths) {
+                var mathBtn = document.createElement('button')
+
+                mathBtn.innerHTML = maths[i]
+                btn2.appendChild(mathBtn)
+
+                mathBtn.addEventListener('click', clickMath)
+
+                input.value = ''
+            }
+
+            function clickbtn() {
+                event.stopPropagation()
+                if (id == 1) {
+                    input.value = '';
+                    id = 0
+                }
+
+                input.value = input.value + this.innerText
+            }
+
+            function clickMath() {
+                event.stopPropagation()
+                input.value = input.value + this.innerText
+            }
+
+            function result() {
+                id = 1
+                var result = eval(input.value)
+
+                input.value = result;
+            }
+        </script>
+    </div>
+</body>
+
+</html>
