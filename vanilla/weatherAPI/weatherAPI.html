@@ -1,56 +1,61 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Document</title>
-</head>
-<body>
+  </head>
+  <body>
     <span></span>
 
     <script>
-        /*
+      /*
             1. 사용자의 좌표를 갖고온다.
             2. weather API를 불러온다.
             3. weather API에 사용자의 좌표를 입력한다.
             4. weather서버를 통해 데이터를 얻는것이 성공한다면 
                 현재 위치의 날씨와 기온을 span태그에 innerText해준다.
         */
-    
-        const span = document.querySelector('span');
 
-        function getWeather(lat, lon){
-            fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=02e1f20cb9f0609946d22679b7bf51a5&units=metric`).then(function(response){
-                return response.json()
-            }).then(function(json){
-                const temp = json.main.temp;
-                const today = json.weather[0].main;
+      const span = document.querySelector("span");
 
-                span.innerHTML = `기온 : ${temp} and 날씨 : ${today}`
-            })
-        }
+      function getWeather(lat, lon) {
+        fetch(
+          `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=02e1f20cb9f0609946d22679b7bf51a5&units=metric`
+        )
+          .then(function(response) {
+            return response.json();
+          })
+          .then(function(json) {
+            const temp = json.main.temp;
+            const today = json.weather[0].main;
 
-        function geoErr(){
-            alert('위치 권한 차단 시 날씨정보를 볼 수 없습니다.')
-        }
+            span.innerHTML = `기온 : ${temp} and 날씨 : ${today}`;
+          });
+      }
 
-        function geoSucc(position){
-            console.log(position);
-            const lat = position.coords.latitude;
-            const lon = position.coords.longitude;
+      function geoErr() {
+        alert("위치 권한 차단 시 날씨정보를 볼 수 없습니다.");
+      }
 
-            getWeather(lat, lon)
-        }
+      function geoSucc(position) {
+        console.log(position);
+        const lat = position.coords.latitude;
+        const lon = position.coords.longitude;
 
-        function loadCoords(){
-            navigator.geolocation.getCurrentPosition(geoSucc,geoErr)
-        }
+        getWeather(lat, lon);
+      }
 
-        function init(){
-            loadCoords()
-        }
-        init()
+      function loadCoords() {
+        console.log(navigator.geolocation);
+        navigator.geolocation.getCurrentPosition(geoSucc, geoErr);
+      }
+
+      function init() {
+        loadCoords();
+      }
+      init();
     </script>
-</body>
+  </body>
 </html>
