@@ -13,7 +13,9 @@
         <router-link to="/main">Main 컴포넌트 이동</router-link>
         <router-link to="/sub">sub 컴포넌트 이동</router-link>
       </div>
+      <router-view name="header"></router-view>
       <router-view></router-view>
+      <router-view name="footer"></router-view>
     </div>
 
     <script src="https://unpkg.com/vue/dist/vue.js"></script>
@@ -27,13 +29,44 @@
       };
       const Sub = {
         template: `
-              <div>Sub컴포넌트 입니다.</div>
+              <div>
+              Sub컴포넌트 입니다.
+                <router-link to="/sub/subchildren">children</router-link>
+                <router-view></router-view> 
+              </div>
           `
+        //   하위 컴포넌트(네스티드 라우터)
+      };
+      const SubChildren = {
+        template: `
+            <div>최상위 안의 라우터, 그 안의 라우터입니다.(네스티드 라우터)</div>
+          `
+      };
+      const Header = {
+        template: `<div>header</div>`
+      };
+      const Body = {
+        template: `<div>Body(default)</div>`
+      };
+      const Footer = {
+        template: `<div>Footer</div>`
       };
 
       const routes = [
+        {
+          path: "/",
+          components: {
+            default: Body,
+            header: Header,
+            footer: Footer
+          } //named 뷰 속성과 각 컴포넌트 연결
+        },
         { path: "/main", component: Main },
-        { path: "/sub", component: Sub }
+        {
+          path: "/sub",
+          component: Sub,
+          children: [{ path: "subchildren", component: SubChildren }]
+        }
       ];
 
       const router = new VueRouter({
