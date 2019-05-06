@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <title>Document</title>
+    <style>
+        .complete{
+            text-decoration: line-through
+        }
+        .modal{
+            /* display: none; */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5)
+        }
+        .modalShow{
+            display: block
+        }
+        .modalInput{
+            background: #fff;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%)
+        }
+    </style>
+</head>
+<body>
+    <div id="wrap">
+        <div id="todoWrap">
+            <input type="text" v-model="input" @keypress.enter="inputTodo">
+            <div>
+                <p 
+                v-for="(todo,index) in todos"
+                :class="{complete : todo.complete}"
+                @click="complete(todo)">
+                {{todo.text}} 
+                <button @click.stop="modalOpen(todo,index)">reset</button>
+                <button @click.stop="delTodo(index)">X</button>
+                </p>    
+            </div>
+            <div class="modal" v-show="modalShow">
+                <div class="modalInput">
+                    <input type="text" v-model="resetInput">
+                    <button @click.stop="resetTodo(resetInput)">reset</button>
+                    <button @click.stop="modalClose">X</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="Vue_todoModal.js">
+    </script>
+</body>
+</html>

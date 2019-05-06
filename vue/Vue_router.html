@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="app">
+      <h1>뷰 라우터 만들기</h1>
+      <div>
+        <router-link to="/main">Main 컴포넌트 이동</router-link>
+        <router-link to="/sub">sub 컴포넌트 이동</router-link>
+      </div>
+      <router-view name="header"></router-view>
+      <router-view></router-view>
+      <router-view name="footer"></router-view>
+    </div>
+
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+
+    <script>
+      const Main = {
+        template: `
+              <div>Main컴포넌트 입니다.</div>
+          `
+      };
+      const Sub = {
+        template: `
+              <div>
+              Sub컴포넌트 입니다.
+                <router-link to="/sub/subchildren">children</router-link>
+                <router-view></router-view> 
+              </div>
+          `
+        //   하위 컴포넌트(네스티드 라우터)
+      };
+      const SubChildren = {
+        template: `
+            <div>최상위 안의 라우터, 그 안의 라우터입니다.(네스티드 라우터)</div>
+          `
+      };
+      const Header = {
+        template: `<div>header</div>`
+      };
+      const Body = {
+        template: `<div>Body(default)</div>`
+      };
+      const Footer = {
+        template: `<div>Footer</div>`
+      };
+
+      const routes = [
+        {
+          path: "/",
+          components: {
+            default: Body,
+            header: Header,
+            footer: Footer
+          } //named 뷰 속성과 각 컴포넌트 연결
+        },
+        { path: "/main", component: Main },
+        {
+          path: "/sub",
+          component: Sub,
+          children: [{ path: "subchildren", component: SubChildren }]
+        }
+      ];
+
+      const router = new VueRouter({
+        routes
+        //routes : routes로 뷰 라우터 정의
+      });
+
+      new Vue({
+        router //뷰 인스턴스에 라우터 추가
+      }).$mount("#app");
+      //$mount() API : el속성과 동일 ! => 인스턴스를 화면에 붙이는 역할(DOM접근)
+      // 인스턴스 생성시 el 속성을 넣지 않아도 $mount()로 대신해서 강제로 화면에 인스턴스를 붙일 수 있다.
+    </script>
+  </body>
+</html>
