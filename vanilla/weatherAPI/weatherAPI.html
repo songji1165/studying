@@ -22,7 +22,7 @@
 
       function getWeather(lat, lon) {
         fetch(
-          `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=keyunits=metric`
+          `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=key&units=metric`
         )
           .then(function(response) {
             return response.json();
@@ -48,6 +48,7 @@
       }
 
       function loadCoords() {
+        console.log(navigator.geolocation);
         navigator.geolocation.getCurrentPosition(geoSucc, geoErr);
       }
 
